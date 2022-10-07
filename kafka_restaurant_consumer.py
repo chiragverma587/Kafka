@@ -91,13 +91,6 @@ def main(topic):
                 mydict.append(order.__dict__)
 
                 print(order.__dict__)
-                # d = json.loads(str(order))
-                # df2=pd.DataFrame.from_dict(d)
-                # df2 = pd.DataFrame(order.items(), columns=['order_number', 'order_date', 'item_name', 'quantity', 'product_price', 'total_products']) 
-                # df = df.append(df2, ignore_index =True)
-                # print(type(order))
-                # print("User record {}: order: {}\n"
-                #       .format(msg.key(), order))
         except KeyboardInterrupt:
             break
     print(count)
