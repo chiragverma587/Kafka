@@ -73,9 +73,10 @@ def main(topic):
     consumer.subscribe([topic])
 
     count=0
-    df=pd.DataFrame()
-    mydict=[]
     columns=['order_number', 'order_date', 'item_name', 'quantity', 'product_price', 'total_products']
+    df=pd.DataFrame(columns=['order_number', 'order_date', 'item_name', 'quantity', 'product_price', 'total_products'])
+    output_filepath = "/Users/ADMIN/Desktop/Kafka/Output.csv"
+    df.to_csv(output_filepath, mode='a', index=False)
     
     while True:
         try:
@@ -88,22 +89,15 @@ def main(topic):
 
             if order is not None:
                 count=count+1
-                mydict.append(order.__dict__)
-
-                print(order.__dict__)
+                mydict = order.record
+                print(mydict)
+                df2 = pd.DataFrame([mydict])
+                df2.to_csv(output_filepath, mode='a', index=False, header=False)
+                
         except KeyboardInterrupt:
             break
     print(count)
-    print(type(order.__dict__))
-    
-    filename = "/Users/ADMIN/Desktop/Kafka/Output.csv"
-    with open(filename, 'w') as csvfile: 
-      writer = csv.DictWriter(csvfile, fieldnames = columns,extrasaction='ignore', delimiter = ',') 
-      writer.writeheader()  
-      writer.writerows(mydict) 
-
-
-    # df.to_csv("Output.csv")
+    print(type(order.__dict__)) 
     consumer.close()
 
 main("restaurant_topic")
